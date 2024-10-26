@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('estado_envio', ['Pendiente', 'Enviado', 'Entregado']);
             $table->enum('tipo_envio', ['Estándar', 'Urgente']);
             $table->foreignId('usuario_id')->constrained('users');
-            $table->foreignId('factura_id')->constrained('facturas');
+            $table->foreignId('factura_id')->constrained('facturas', 'id_factura');
             $table->timestamps();
         });
     }
