@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Factura;
+use App\Models\User; // Asegúrate de incluir el modelo User
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -16,7 +17,9 @@ class FacturaController extends Controller
 
     public function create()
     {
-        return view('facturas.create');
+        // Obtener todos los usuarios (clientes)
+        $clientes = User::all(); 
+        return view('facturas.create', compact('clientes'));
     }
 
     public function store(Request $request)
@@ -44,7 +47,9 @@ class FacturaController extends Controller
 
     public function edit(Factura $factura)
     {
-        return view('facturas.edit', compact('factura'));
+        // Obtener todos los usuarios (clientes)
+        $clientes = User::all(); 
+        return view('facturas.edit', compact('factura', 'clientes'));
     }
 
     public function update(Request $request, Factura $factura)

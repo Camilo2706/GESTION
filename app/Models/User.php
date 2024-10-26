@@ -2,61 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Authenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'nombre_completo', // Cambio de 'name' a 'nombre_completo'
+        'nombre_completo',
         'email',
         'password',
         'telefono',
         'direccion',
         'rol',
-    ];
-
-    public function dispositivos(): HasMany
-    {
-        return $this->hasMany(Dispositivo::class, 'id_usuario');
-    }
-
-    public function pqrs(): HasMany
-    {
-        return $this->hasMany(Pqrs::class, 'id_usuario');
-    }
-
-    public function envios(): HasMany
-    {
-        return $this->hasMany(Envio::class, 'usuario_id');
-    }
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 }

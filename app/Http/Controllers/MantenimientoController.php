@@ -1,9 +1,10 @@
 <?php
 
-
+// app/Http/Controllers/MantenimientoController.php
 namespace App\Http\Controllers;
 
-use App\Models\Mantenimiento;
+use App\Models\Mantenimiento; // Asegúrate de que este modelo esté definido
+use App\Models\Dispositivo; // Asegúrate de incluir el modelo Dispositivo
 use Illuminate\Http\Request;
 
 class MantenimientoController extends Controller
@@ -16,16 +17,17 @@ class MantenimientoController extends Controller
 
     public function create()
     {
-        return view('mantenimientos.create');
+        // Obtener todos los dispositivos
+        $dispositivos = Dispositivo::all(); 
+        return view('mantenimientos.create', compact('dispositivos'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_dispositivo' => 'required|exists:dispositivos,id_dispositivo',
-            'descripcion_mantenimiento' => 'required|string',
-            'fecha_mantenimiento' => 'nullable|date',
-            'estado_mantenimiento' => 'required|string'
+            'fecha' => 'required|date',
+            'descripcion' => 'required|string',
+            'dispositivo_id' => 'required|exists:dispositivos,id', // Asegúrate de que el dispositivo existe
         ]);
 
         Mantenimiento::create($request->all());
@@ -39,15 +41,17 @@ class MantenimientoController extends Controller
 
     public function edit(Mantenimiento $mantenimiento)
     {
-        return view('mantenimientos.edit', compact('mantenimiento'));
+        // Obtener todos los dispositivos
+        $dispositivos = Dispositivo::all(); 
+        return view('mantenimientos.edit', compact('mantenimiento', 'dispositivos'));
     }
 
     public function update(Request $request, Mantenimiento $mantenimiento)
     {
         $request->validate([
-            'descripcion_mantenimiento' => 'required|string',
-            'fecha_mantenimiento' => 'nullable|date',
-            'estado_mantenimiento' => 'required|string'
+            'fecha' => 'required|date',
+            'descripcion' => 'required|string',
+            'dispositivo_id' => 'required|exists:dispositivos,id', // Asegúrate de que el dispositivo existe
         ]);
 
         $mantenimiento->update($request->all());
@@ -60,4 +64,3 @@ class MantenimientoController extends Controller
         return redirect()->route('mantenimientos.index');
     }
 }
-

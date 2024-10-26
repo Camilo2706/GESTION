@@ -62,5 +62,3 @@ class EnvioController extends Controller
         return redirect()->route('envios.index');
     }
 }
-
-}

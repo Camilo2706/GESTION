@@ -9,19 +9,26 @@ use App\Http\Controllers\MantenimientoController;
 use App\Http\Controllers\PoliticaController;
 use App\Http\Controllers\PQRSController;
 use App\Http\Controllers\ReporteController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UserController; // Cambié de 'UsuarioController' a 'UserController'
+use App\Http\Controllers\ProfileController;
 
-// Aquí van las rutas existentes que ya tienes
-// Por ejemplo, si tienes una ruta de inicio o autenticación
+// Ruta de inicio
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Rutas de autenticación si usas Laravel Breeze
-require __DIR__.'/auth.php';
+// Ruta de dashboard
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rutas para las entidades adicionales
+// Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {
+    // Rutas de perfil de usuario
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     // Rutas para Dispositivos
     Route::resource('dispositivos', DispositivoController::class);
 
@@ -47,5 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('reportes', ReporteController::class);
 
     // Rutas para Usuarios
-    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('usuarios', UserController::class); // Aquí se utilizó UserController
 });
+
+// Rutas de autenticación
+require __DIR__.'/auth.php';

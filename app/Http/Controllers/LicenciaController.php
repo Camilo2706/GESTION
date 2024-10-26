@@ -3,7 +3,8 @@
 // app/Http/Controllers/LicenciaController.php
 namespace App\Http\Controllers;
 
-use App\Models\Licencia;
+use App\Models\Licencia; // Asegúrate de que este modelo esté definido
+use App\Models\Dispositivo; // Asegúrate de incluir el modelo Dispositivo
 use Illuminate\Http\Request;
 
 class LicenciaController extends Controller
@@ -16,15 +17,18 @@ class LicenciaController extends Controller
 
     public function create()
     {
-        return view('licencias.create');
+        // Obtener todos los dispositivos
+        $dispositivos = Dispositivo::all(); 
+        return view('licencias.create', compact('dispositivos'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nombre_licencia' => 'required|string',
-            'fecha_vencimiento' => 'nullable|date',
-            'dispositivo_id' => 'required|exists:dispositivos,id_dispositivo'
+            'nombre' => 'required|string',
+            'codigo' => 'required|string',
+            'fecha_expiracion' => 'required|date',
+            'dispositivo_id' => 'required|exists:dispositivos,id', // Asegúrate de que el dispositivo existe
         ]);
 
         Licencia::create($request->all());
@@ -38,14 +42,18 @@ class LicenciaController extends Controller
 
     public function edit(Licencia $licencia)
     {
-        return view('licencias.edit', compact('licencia'));
+        // Obtener todos los dispositivos
+        $dispositivos = Dispositivo::all(); 
+        return view('licencias.edit', compact('licencia', 'dispositivos'));
     }
 
     public function update(Request $request, Licencia $licencia)
     {
         $request->validate([
-            'nombre_licencia' => 'required|string',
-            'fecha_vencimiento' => 'nullable|date'
+            'nombre' => 'required|string',
+            'codigo' => 'required|string',
+            'fecha_expiracion' => 'required|date',
+            'dispositivo_id' => 'required|exists:dispositivos,id', // Asegúrate de que el dispositivo existe
         ]);
 
         $licencia->update($request->all());

@@ -6,8 +6,8 @@
     <form action="{{ route('usuarios.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="name">Nombre</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="nombre_completo">Nombre Completo</label>
+            <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" required>
         </div>
         <div class="form-group">
             <label for="email">Correo Electrónico</label>
@@ -18,10 +18,19 @@
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <div class="form-group">
-            <label for="role">Rol</label>
-            <select class="form-control" id="role" name="role" required>
+            <label for="telefono">Teléfono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <input type="text" class="form-control" id="direccion" name="direccion" required>
+        </div>
+        <div class="form-group">
+            <label for="rol">Rol</label>
+            <select class="form-control" id="rol" name="rol" required>
                 <option value="admin">Administrador</option>
-                <option value="usuario">Usuario</option>
+                <option value="cliente">Cliente</option>
+                <option value="soporte">Soporte</option>
             </select>
         </div>
         <button type="submit" class="btn btn-success">Guardar</button>
